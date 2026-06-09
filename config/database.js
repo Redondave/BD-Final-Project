@@ -6,6 +6,12 @@ require('dotenv').config();
 // Configuração da conexão com o banco de dados
 const schemaName = process.env.DB_NAME || 'projeto';
 
+const connection = mysql.createConnection({
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+}); 
+
 const adminPool = mysql.createPool({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
