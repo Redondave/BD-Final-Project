@@ -8,9 +8,9 @@ async function list(req, res) {
   }
 }
 
-async function getById(req, res) {
+async function getByMatricula(req, res) {
   try {
-    const usuario = await usuarioService.getById(req.params.id);
+    const usuario = await usuarioService.getByMatricula(req.params.matricula);
     res.json(usuario);
   } catch (error) {
     const status = error.message === 'Usuario not found' ? 404 : 500;
@@ -29,7 +29,7 @@ async function create(req, res) {
 
 async function update(req, res) {
   try {
-    const usuario = await usuarioService.update(req.params.id, req.body);
+    const usuario = await usuarioService.update(req.params.matricula, req.body);
     res.json(usuario);
   } catch (error) {
     const status = error.message === 'Usuario not found' ? 404 : 400;
@@ -39,7 +39,7 @@ async function update(req, res) {
 
 async function remove(req, res) {
   try {
-    await usuarioService.remove(req.params.id);
+    await usuarioService.remove(req.params.matricula);
     res.status(204).send();
   } catch (error) {
     const status = error.message === 'Usuario not found' ? 404 : 500;
@@ -49,7 +49,7 @@ async function remove(req, res) {
 
 module.exports = {
   list,
-  getById,
+  getByMatricula,
   create,
   update,
   remove,

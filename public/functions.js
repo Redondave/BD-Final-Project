@@ -1,10 +1,38 @@
 const form = document.getElementById('usuarioForm');
+const loginForm = document.getElementById('loginForm');
 const usuariosTable = document.getElementById('usuariosTable');
 const statusBox = document.getElementById('status');
 const usuarioIdInput = document.getElementById('usuarioId');
 const nomeInput = document.getElementById('nome');
 const emailInput = document.getElementById('email');
 const cancelBtn = document.getElementById('cancelBtn');
+
+// Event listener para o formulário de login
+loginForm.addEventListener('submit', async (event) => {
+	event.preventDefault();
+
+	// Faz a tramitação dos dados de login e envia a requisição para o backend
+	const payload = {
+		Matricula: usuarioIdInput.value.trim(),
+		Senha: nomeInput.value.trim(),
+	};
+	const response = await fetch('/api/login', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(payload),
+	});
+
+	const result = await response.json().catch(() => ({}));
+
+	if (!response.ok) {
+		setStatus(result.error || 'Unable to login', true);
+		return;
+	}
+
+	setStatus('Login successful');
+});
 
 function setStatus(message, isError = false) {
 	statusBox.textContent = message;
@@ -21,13 +49,13 @@ function renderUsuarios(usuarios) {
 		.map(
 			(usuario) => `
 				<tr>
-					<td>${usuario.id}</td>
-					<td>${usuario.nome}</td>
-					<td>${usuario.email}</td>
+					<td>${usuario.Matricula}</td>
+					<td>${usuario.Nome}</td>
+					<td>${usuario.Email}</td>
 					<td>
 						<div class="actions">
-							<button type="button" data-edit="${usuario.id}">Editar</button>
-							<button type="button" data-delete="${usuario.id}" class="secondary">Excluir</button>
+							<button type="button" data-edit="${usuario.Matricula}">Editar</button>
+							<button type="button" data-delete="${usuario.Matricula}" class="secondary">Excluir</button>
 						</div>
 					</td>
 				</tr>
@@ -42,8 +70,8 @@ async function loadUsuarios() {
 	renderUsuarios(usuarios);
 }
 
-async function getUsuario(id) {
-	const response = await fetch(`/api/usuarios/${id}`);
+async function getUsuario(Matricula) {
+	const response = await fetch(`/api/usuarios/${Matricula}`);
 	return response.json();
 }
 
@@ -51,13 +79,13 @@ form.addEventListener('submit', async (event) => {
 	event.preventDefault();
 
 	const payload = {
-		nome: nomeInput.value.trim(),
-		email: emailInput.value.trim(),
+		Nome: nomeInput.value.trim(),
+		Email: emailInput.value.trim(),
 	};
 
-	const id = usuarioIdInput.value;
-	const method = id ? 'PUT' : 'POST';
-	const url = id ? `/api/usuarios/${id}` : '/api/usuarios';
+	const Matricula = usuarioIdInput.value;
+	const method = Matricula ? 'PUT' : 'POST';
+	const url = Matricula ? `/api/usuarios/${Matricula}` : '/api/usuarios';
 
 	const response = await fetch(url, {
 		method,
@@ -74,7 +102,7 @@ form.addEventListener('submit', async (event) => {
 		return;
 	}
 
-	setStatus(id ? 'Usuario updated' : 'Usuario created');
+	setStatus(Matricula ? 'Usuario updated' : 'Usuario created');
 	resetForm();
 	await loadUsuarios();
 });
@@ -85,9 +113,9 @@ usuariosTable.addEventListener('click', async (event) => {
 
 	if (editId) {
 		const usuario = await getUsuario(editId);
-		usuarioIdInput.value = usuario.id;
-		nomeInput.value = usuario.nome;
-		emailInput.value = usuario.email;
+		usuarioIdInput.value = usuario.Matricula;
+		nomeInput.value = usuario.Nome;
+		emailInput.value = usuario.Email;
 		setStatus('Editing usuario');
 	}
 
