@@ -1,26 +1,61 @@
 const mysql = require('mysql2/promise');
+const fs = require('fs');
+const path = require('path');
 require('dotenv').config();
 
 // Configuração da conexão com o banco de dados
-const pool = mysql.createPool({
-	host: process.env.DB_HOST || 'localhost',
-	user: process.env.DB_USER || 'root',
-	password: process.env.DB_PASSWORD || '',
-	database: process.env.DB_NAME || 'projeto',
-	waitForConnections: true,
-	connectionLimit: 10,
-	queueLimit: 0,
+const schemaName = process.env.DB_NAME || 'projeto';
+
+const adminPool = mysql.createPool({
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+    waitForConnections: true,
+    connectionLimit: 1,
+    queueLimit: 0,
 });
+
+async function databaseExists() {
+    const [rows] = await adminPool.query(
+        'SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?',
+        [schemaName],
+    );
+
+    return rows.length > 0;
+}
+
+async function runSqlFile(connection, fileName) {
+    const filePath = path.join(__dirname, fileName);
+    const sql = fs.readFileSync(filePath, 'utf8');
+    const statements = sql
+        .split(';')
+        .map((statement) => statement.trim())
+        .filter(Boolean);
+
+    for (const statement of statements) {
+        await connection.query(statement);
+    }
+}
 
 
 // Função para inicializar o banco de dados
 const initializeDatabase = async () => {
     try {
-        const connection = await pool.getConnection();
-        await pool.execute('./config/populate.sql');
-        await pool.execute('./config/seed.sql');
-        connection.release();
-        console.log('Database initialized successfully');
+        if (await databaseExists()) {
+            console.log(`Database "${schemaName}" already exists. Skipping initialization.`);
+            return;
+        }
+
+        const connection = await adminPool.getConnection();
+        try {
+            await connection.query(`CREATE DATABASE IF NOT EXISTS \`${schemaName}\``);
+            await connection.query(`USE \`${schemaName}\``);
+            await runSqlFile(connection, 'populate.sql');
+            await runSqlFile(connection, 'seed.sql');
+            console.log('Database initialized successfully');
+        } finally {
+            connection.release();
+        }
     }
     catch (error) {
         console.error('Error connecting to the database:', error);
@@ -30,4 +65,4 @@ const initializeDatabase = async () => {
 
 initializeDatabase();
 
-module.exports = { pool};
+module.exports = { adminPool };
