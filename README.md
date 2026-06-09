@@ -11,3 +11,15 @@ The files responsible for implementing the communication between the model data 
 The files responsible for mapping the operations defined in the controller layer to URL endpoints to be used in the application, considering the different HTTP Methods supported and their formats.
 ## Public:
 Contains the files necessary for the interface implementation and responsiveness through JavaScript functions. These components will use the procedures implemented in the previous components to provide all the functionalities for the user through a visual representation. As such, it implements the "View" layer of the MVC pattern.
+
+# Setup / initialization:
+Before running the application, make sure that you install the dependencies by going into the root folder and running:
+```
+npm install
+npm i mysql2 --save
+npm i express --save
+```
+With that, you may initialize the database and then run the project by executing (in the root of the application):
+```
+npm start
+```
