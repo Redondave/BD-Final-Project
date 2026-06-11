@@ -6,12 +6,6 @@ require('dotenv').config();
 // Configuração da conexão com o banco de dados
 const schemaName = process.env.DB_NAME || 'projeto';
 
-const connection = mysql.createConnection({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-}); 
-
 const adminPool = mysql.createPool({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
@@ -48,10 +42,10 @@ async function runSqlFile(connection, fileName) {
 const initializeDatabase = async () => {
     try {
         if (await databaseExists()) {
-            console.log(`Database "${schemaName}" already exists. Skipping initialization.`);
-            return;
+            console.log(`Database "${schemaName}" already exists. Dropping and recreating.`);
+            await adminPool.query(`DROP DATABASE IF EXISTS \`${schemaName}\``);
         }
-
+        
         const connection = await adminPool.getConnection();
         try {
             await connection.query(`CREATE DATABASE IF NOT EXISTS \`${schemaName}\``);
@@ -69,6 +63,14 @@ const initializeDatabase = async () => {
     }
 };
 
-initializeDatabase();
+const appPool = mysql.createPool({
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+    waitForConnections: true,
+    connectionLimit: 1,
+    queueLimit: 0,
+    database: schemaName
+});
 
-module.exports = { adminPool };
+module.exports = { adminPool, appPool, initializeDatabase };

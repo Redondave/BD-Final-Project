@@ -1,43 +1,10 @@
 const form = document.getElementById('usuarioForm');
-const loginForm = document.getElementById('loginForm');
 const usuariosTable = document.getElementById('usuariosTable');
 const statusBox = document.getElementById('status');
 const usuarioIdInput = document.getElementById('usuarioId');
 const nomeInput = document.getElementById('nome');
 const emailInput = document.getElementById('email');
 const cancelBtn = document.getElementById('cancelBtn');
-
-// Event listener para o formulário de login
-loginForm.addEventListener('submit', async (event) => {
-	event.preventDefault();
-
-	// Faz a tramitação dos dados de login e envia a requisição para o backend
-	const payload = {
-		Matricula: usuarioIdInput.value.trim(),
-		Senha: nomeInput.value.trim(),
-	};
-	const response = await fetch('/api/login', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(payload),
-	});
-
-	const result = await response.json().catch(() => ({}));
-
-	if (!response.ok) {
-		setStatus(result.error || 'Unable to login', true);
-		return;
-	}
-
-	setStatus('Login successful');
-});
-
-function setStatus(message, isError = false) {
-	statusBox.textContent = message;
-	statusBox.style.color = isError ? '#b91c1c' : '#065f46';
-}
 
 function resetForm() {
 	usuarioIdInput.value = '';
@@ -65,13 +32,13 @@ function renderUsuarios(usuarios) {
 }
 
 async function loadUsuarios() {
-	const response = await fetch('/api/usuarios');
+	const response = await fetch('/api/usuarios/view');
 	const usuarios = await response.json();
 	renderUsuarios(usuarios);
 }
 
 async function getUsuario(Matricula) {
-	const response = await fetch(`/api/usuarios/${Matricula}`);
+	const response = await fetch(`/api/usuarios/view/${Matricula}`);
 	return response.json();
 }
 
@@ -85,7 +52,7 @@ form.addEventListener('submit', async (event) => {
 
 	const Matricula = usuarioIdInput.value;
 	const method = Matricula ? 'PUT' : 'POST';
-	const url = Matricula ? `/api/usuarios/${Matricula}` : '/api/usuarios';
+	const url = Matricula ? `/api/usuarios/view/${Matricula}` : '/api/usuarios/view';
 
 	const response = await fetch(url, {
 		method,
@@ -120,7 +87,7 @@ usuariosTable.addEventListener('click', async (event) => {
 	}
 
 	if (deleteId) {
-		const response = await fetch(`/api/usuarios/${deleteId}`, {
+		const response = await fetch(`/api/usuarios/view/${deleteId}`, {
 			method: 'DELETE',
 		});
 
@@ -141,4 +108,19 @@ cancelBtn.addEventListener('click', () => {
 	setStatus('Editing canceled');
 });
 
-loadUsuarios().catch(() => setStatus('Could not load usuarios. Check the API and database.', true));
+async function initUsuariosPage() {
+	try {
+		await loadUsuarios();
+	} catch {
+		setStatus('Could not load usuarios. Check the API and database.', true);
+	}
+}
+
+function setStatus(message, isError = false) {
+	statusBox.textContent = message;
+	statusBox.style.color = isError ? 'red' : 'green';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+	initUsuariosPage();
+});

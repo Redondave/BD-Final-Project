@@ -1,49 +1,52 @@
+const path = require('path');
+const usuarioModel = require('../model/usuario_model');
+
 // Lista as ações do CRUD para o recurso "usuario"
-async function list(req, res) {
+const list = async (req, res) => {
   try {
-    const usuarios = await usuarioService.list();
-    res.json(usuarios);
+    const usuarios = await usuarioModel.findAll();
+    return res.json(usuarios);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 }
 
-async function getByMatricula(req, res) {
+const getByMatricula = async (req, res) => {
   try {
-    const usuario = await usuarioService.getByMatricula(req.params.matricula);
-    res.json(usuario);
+    const usuario = await usuarioModel.findByMatricula(req.params.matricula);
+    return res.json(usuario);
   } catch (error) {
     const status = error.message === 'Usuario not found' ? 404 : 500;
-    res.status(status).json({ error: error.message });
+    return res.status(status).json({ error: error.message });
   }
 }
 
-async function create(req, res) {
+const create = async (req, res) => {
   try {
-    const usuario = await usuarioService.create(req.body);
-    res.status(201).json(usuario);
+    const usuario = await usuarioModel.create(req.body);
+    return res.status(201).json(usuario);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    return res.status(400).json({ error: error.message });
   }
 }
 
-async function update(req, res) {
+const update = async (req, res) => {
   try {
-    const usuario = await usuarioService.update(req.params.matricula, req.body);
-    res.json(usuario);
+    const usuario = await usuarioModel.update(req.params.matricula, req.body);
+    return res.json(usuario);
   } catch (error) {
     const status = error.message === 'Usuario not found' ? 404 : 400;
-    res.status(status).json({ error: error.message });
+    return res.status(status).json({ error: error.message });
   }
 }
 
-async function remove(req, res) {
+const remove = async (req, res) => {
   try {
-    await usuarioService.remove(req.params.matricula);
-    res.status(204).send();
+    await usuarioModel.remove(req.params.matricula);
+    return res.status(204).send();
   } catch (error) {
     const status = error.message === 'Usuario not found' ? 404 : 500;
-    res.status(status).json({ error: error.message });
+    return res.status(status).json({ error: error.message });
   }
 }
 

@@ -1,42 +1,24 @@
+<!-- create basic login form -->
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>MySQL CRUD Starter</title>
-		<link rel="stylesheet" href="styles.css" />
-	</head>
-	<body>
-		<div class="container">
-			<h1>MySQL CRUD Starter</h1>
-			<div class="card">
-				<h2>Usuarios</h2>
-				<form id="usuarioForm">
-					<input type="hidden" id="usuarioId" />
-					<input id="nome" placeholder="Nome" required />
-					<input id="email" type="email" placeholder="Email" required />
-					<div class="actions full">
-						<button type="submit">Salvar</button>
-						<button type="button" id="cancelBtn" class="secondary">Cancelar</button>
-					</div>
-				</form>
-				<div id="status" class="status"></div>
-			</div>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
+        <link rel="stylesheet" href="/styles.css">
+    </head>
+    <body>
+        <div class="login-container">
+            <h2>Login</h2>
+            <form id="loginForm" action="/" method="POST">
+                <label for="Matricula">Matricula:</label>
+                <input type="text" id="Matricula" name="Matricula" required>
 
-			<div class="card">
-				<table>
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>Nome</th>
-							<th>Email</th>
-							<th>Ações</th>
-						</tr>
-					</thead>
-					<tbody id="usuariosTable"></tbody>
-				</table>
-			</div>
-		</div>
-		<script src="app.js"></script>
-	</body>
+                <label for="Senha">Senha:</label>
+                <input type="password" id="Senha" name="Senha" required>
+
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </body>
 </html>

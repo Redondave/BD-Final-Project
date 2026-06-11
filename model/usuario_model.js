@@ -1,21 +1,21 @@
 const db = require('../config/database');
-const adminPool = db.adminPool;
+const pool = db.appPool;
 
 // Define o modelo de usuário com as operações CRUD
 const Usuario = {
     findAll: async function() {
-    const [rows] = await adminPool.query('SELECT * FROM usuario ORDER BY Matricula DESC');
+    const [rows] = await pool.query('SELECT * FROM Usuario ORDER BY Matricula DESC');
     return rows;
     },
 
     findByMatricula: async function(Matricula) {
-    const [rows] = await adminPool.query('SELECT * FROM usuario WHERE Matricula = ?', [Matricula]);
+    const [rows] = await pool.query('SELECT * FROM Usuario WHERE Matricula = ?', [Matricula]);
     return rows[0] || null;
     },
 
     create: async function(usuario) {
     const { Nome, Email, Senha } = usuario;
-    const [result] = await adminPool.query('INSERT INTO usuario (Nome, Email, Senha) VALUES (?, ?, ?)', [
+    const [result] = await pool.query('INSERT INTO Usuario (Nome, Email, Senha) VALUES (?, ?, ?)', [
         Nome,
         Email,
         Senha,
@@ -26,7 +26,7 @@ const Usuario = {
 
     update: async function(Matricula, usuario) {
     const { Nome, Email, Senha } = usuario;
-    const [result] = await adminPool.query('UPDATE usuario SET Nome = ?, Email = ?, Senha = ? WHERE Matricula = ?', [
+    const [result] = await pool.query('UPDATE Usuario SET Nome = ?, Email = ?, Senha = ? WHERE Matricula = ?', [
         Nome,
         Email,
         Senha,
@@ -37,7 +37,7 @@ const Usuario = {
     },
 
     remove: async function(Matricula) {
-    const [result] = await adminPool.query('DELETE FROM usuario WHERE Matricula = ?', [Matricula]);
+    const [result] = await pool.query('DELETE FROM Usuario WHERE Matricula = ?', [Matricula]);
     return result.affectedRows > 0;
     }
 };

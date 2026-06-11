@@ -12,18 +12,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// Rota para servir a página de login
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'login.html'));
-});
-
-app.post('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'login.html'));
-});
-
-
 // Registra as rotas para cada entidade
 app.use('/api/usuarios', usuarioRoutes);
+app.use('/', loginRoute);
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
