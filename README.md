@@ -1,6 +1,7 @@
 An application dedicated to enhance the experience of students and employess at UnB when it comes to internal services requests and provisioning.
 # Project Structure:
 The project is an implementation of the MVC architectural pattern, designed to optimize the communication of the client-side requisitions with the database models defined. As such, the file structure is divided in:
+![Project Diagram](./public/images/Diagrama_BD_final.png)
 ## Config:
 The configuration of the database on itself, considering its creation, population and exporting for other application components. It is also important to note that the **process.env** is used for parametrization.
 ## Models:
@@ -18,6 +19,10 @@ Before running the application, make sure that you install the dependencies by g
 npm install
 npm i mysql2 --save
 npm i express --save
+```
+After that, make sure that MySQL is up and running by running the following command in Windows PowerShell as administrator, replacing the bracketed part with the proper path for the mysql executable:
+```
+& C:\[path_to_MySQL_folder]\MySQL\MySQL Server 8.0\bin\mysqld
 ```
 With that, you may initialize the database and then run the project by executing (in the root of the application):
 ```
