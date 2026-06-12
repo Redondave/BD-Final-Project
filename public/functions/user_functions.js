@@ -1,9 +1,11 @@
 const form = document.getElementById('usuarioForm');
 const usuariosTable = document.getElementById('usuariosTable');
 const statusBox = document.getElementById('status');
-const usuarioIdInput = document.getElementById('usuarioId');
+const usuarioIdInput = document.getElementById('editingId');
 const nomeInput = document.getElementById('nome');
 const emailInput = document.getElementById('email');
+const senhaInput = document.getElementById('senha');
+const matriculaInput = document.getElementById('matricula');
 const cancelBtn = document.getElementById('cancelBtn');
 
 function resetForm() {
@@ -11,6 +13,7 @@ function resetForm() {
 	form.reset();
 }
 
+// Renderiza a tabela de usuários com os dados recebidos da API (usuários) e adiciona botões de ação para cada usuário
 function renderUsuarios(usuarios) {
 	usuariosTable.innerHTML = usuarios
 		.map(
@@ -31,6 +34,7 @@ function renderUsuarios(usuarios) {
 		.join('');
 }
 
+// Pega o resultado da API (json) e chama a função de render
 async function loadUsuarios() {
 	const response = await fetch('/api/usuarios/view');
 	const usuarios = await response.json();
@@ -42,17 +46,19 @@ async function getUsuario(Matricula) {
 	return response.json();
 }
 
+// Manipula o envio do formulário para criar ou atualizar um usuário, fazendo a requisição correspondente à API e atualizando a tabela de usuários após a operação
 form.addEventListener('submit', async (event) => {
 	event.preventDefault();
 
 	const payload = {
 		Nome: nomeInput.value.trim(),
 		Email: emailInput.value.trim(),
+		Senha: senhaInput.value.trim(),
 	};
 
-	const Matricula = usuarioIdInput.value;
-	const method = Matricula ? 'PUT' : 'POST';
-	const url = Matricula ? `/api/usuarios/view/${Matricula}` : '/api/usuarios/view';
+	const editingMatricula = usuarioIdInput.value || null;
+	const method = editingMatricula ? 'PUT' : 'POST';
+	const url = editingMatricula ? `/api/usuarios/view/${editingMatricula}` : '/api/usuarios/view';
 
 	const response = await fetch(url, {
 		method,
@@ -69,7 +75,7 @@ form.addEventListener('submit', async (event) => {
 		return;
 	}
 
-	setStatus(Matricula ? 'Usuario updated' : 'Usuario created');
+	setStatus(editingMatricula ? 'Usuario updated' : 'Usuario created');
 	resetForm();
 	await loadUsuarios();
 });
@@ -78,14 +84,17 @@ usuariosTable.addEventListener('click', async (event) => {
 	const editId = event.target.dataset.edit;
 	const deleteId = event.target.dataset.delete;
 
+	// Caso o botão seja o de editar, preenche o formulário com os dados do usuário para edição
 	if (editId) {
 		const usuario = await getUsuario(editId);
 		usuarioIdInput.value = usuario.Matricula;
 		nomeInput.value = usuario.Nome;
 		emailInput.value = usuario.Email;
+		senhaInput.value = usuario.Senha;
 		setStatus('Editing usuario');
 	}
 
+	// Caso o botão seja o de excluir, faz a requisição para deletar o usuário e atualiza a tabela
 	if (deleteId) {
 		const response = await fetch(`/api/usuarios/view/${deleteId}`, {
 			method: 'DELETE',
@@ -99,6 +108,8 @@ usuariosTable.addEventListener('click', async (event) => {
 
 		setStatus('Usuario deleted');
 		resetForm();
+
+		// Atualiza a tabela de usuários após a exclusão
 		await loadUsuarios();
 	}
 });
@@ -108,6 +119,7 @@ cancelBtn.addEventListener('click', () => {
 	setStatus('Editing canceled');
 });
 
+// Inicializa a página carregando os usuários e exibindo mensagens de status em caso de falha
 async function initUsuariosPage() {
 	try {
 		await loadUsuarios();
@@ -116,11 +128,13 @@ async function initUsuariosPage() {
 	}
 }
 
+// Exibe mensagens de status para o usuário, indicando sucesso ou erro nas operações realizadas
 function setStatus(message, isError = false) {
 	statusBox.textContent = message;
 	statusBox.style.color = isError ? 'red' : 'green';
 }
 
+// Certifica-se de que a função de inicialização seja chamada quando o conteúdo da página for carregado, garantindo que a tabela de usuários seja renderizada corretamente
 document.addEventListener('DOMContentLoaded', () => {
 	initUsuariosPage();
 });

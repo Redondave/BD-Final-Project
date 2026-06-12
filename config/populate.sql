@@ -66,14 +66,14 @@ CREATE TABLE Avaliacao
      Resultado      BOOLEAN NOT NULL,
      PRIMARY KEY (idAgentamento, idServidor, Data_hora)); 
 
-ALTER TABLE Servidor ADD FOREIGN KEY(Matricula) REFERENCES Usuario (Matricula);
-ALTER TABLE Servidor ADD FOREIGN KEY(idFuncao) REFERENCES Funcao (Codigo_fn);
-ALTER TABLE Estudante ADD FOREIGN KEY(Matricula) REFERENCES Usuario (Matricula);
-ALTER TABLE Estudante ADD FOREIGN KEY(idCurso) REFERENCES Curso (Sigla_curso);
-ALTER TABLE Agendamento ADD FOREIGN KEY(idSolicitacao) REFERENCES Solicitacao (Senha);
-ALTER TABLE Solicitacao ADD FOREIGN KEY(idEstudante) REFERENCES Estudante (Matricula);
-ALTER TABLE Solicitacao ADD FOREIGN KEY(Codigo_serv) REFERENCES Servico (Codigo_serv);
-ALTER TABLE Oferece ADD FOREIGN KEY(Sigla_dep) REFERENCES Departamento (Sigla_dep);
-ALTER TABLE Oferece ADD FOREIGN KEY(Codigo_serv) REFERENCES Servico (Codigo_serv);
-ALTER TABLE Avaliacao ADD FOREIGN KEY(idAgentamento) REFERENCES Agendamento (Id);
-ALTER TABLE Avaliacao ADD FOREIGN KEY(idServidor) REFERENCES Servidor (Matricula);
+ALTER TABLE Servidor ADD FOREIGN KEY(Matricula) REFERENCES Usuario (Matricula) ON DELETE CASCADE;
+ALTER TABLE Servidor ADD FOREIGN KEY(idFuncao) REFERENCES Funcao (Codigo_fn) ON DELETE CASCADE;
+ALTER TABLE Estudante ADD FOREIGN KEY(Matricula) REFERENCES Usuario (Matricula) ON DELETE CASCADE;
+ALTER TABLE Estudante ADD FOREIGN KEY(idCurso) REFERENCES Curso (Sigla_curso) ON DELETE CASCADE;
+ALTER TABLE Agendamento ADD FOREIGN KEY(idSolicitacao) REFERENCES Solicitacao (Senha) ON DELETE CASCADE;
+ALTER TABLE Solicitacao ADD FOREIGN KEY(idEstudante) REFERENCES Estudante (Matricula) ON DELETE CASCADE;
+ALTER TABLE Solicitacao ADD FOREIGN KEY(Codigo_serv) REFERENCES Servico (Codigo_serv) ON DELETE CASCADE;
+ALTER TABLE Oferece ADD FOREIGN KEY(Sigla_dep) REFERENCES Departamento (Sigla_dep) ON DELETE CASCADE;
+ALTER TABLE Oferece ADD FOREIGN KEY(Codigo_serv) REFERENCES Servico (Codigo_serv) ON DELETE CASCADE;
+ALTER TABLE Avaliacao ADD FOREIGN KEY(idAgentamento) REFERENCES Agendamento (Id) ON DELETE CASCADE;
+ALTER TABLE Avaliacao ADD FOREIGN KEY(idServidor) REFERENCES Servidor (Matricula) ON DELETE CASCADE;

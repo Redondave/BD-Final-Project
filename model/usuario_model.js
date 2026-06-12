@@ -18,7 +18,7 @@ const Usuario = {
     const [result] = await pool.query('INSERT INTO Usuario (Nome, Email, Senha) VALUES (?, ?, ?)', [
         Nome,
         Email,
-        Senha,
+        Senha
     ]);
 
     return { Matricula: result.insertMatricula, Nome, Email, Senha };

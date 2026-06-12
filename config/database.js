@@ -6,6 +6,7 @@ require('dotenv').config();
 // Configuração da conexão com o banco de dados
 const schemaName = process.env.DB_NAME || 'projeto';
 
+// Criação de um pool de conexões para operações administrativas (criação e configuração do banco)
 const adminPool = mysql.createPool({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
@@ -15,6 +16,7 @@ const adminPool = mysql.createPool({
     queueLimit: 0,
 });
 
+// Função para verificar se o banco de dados já existe
 async function databaseExists() {
     const [rows] = await adminPool.query(
         'SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?',
@@ -24,6 +26,7 @@ async function databaseExists() {
     return rows.length > 0;
 }
 
+// Função para executar um arquivo SQL
 async function runSqlFile(connection, fileName) {
     const filePath = path.join(__dirname, fileName);
     const sql = fs.readFileSync(filePath, 'utf8');
@@ -43,9 +46,12 @@ const initializeDatabase = async () => {
     try {
         if (await databaseExists()) {
             console.log(`Database "${schemaName}" already exists. Dropping and recreating.`);
+
+            // Caso o banco de dados já exista, ele é dropado para garantir um ambiente limpo (para testes)
             await adminPool.query(`DROP DATABASE IF EXISTS \`${schemaName}\``);
         }
         
+        // Criação do banco de dados e execução dos scripts de criação e seed
         const connection = await adminPool.getConnection();
         try {
             await connection.query(`CREATE DATABASE IF NOT EXISTS \`${schemaName}\``);
@@ -63,6 +69,7 @@ const initializeDatabase = async () => {
     }
 };
 
+// Criação de um pool de conexões para a aplicação (operações normais de leitura e escrita)
 const appPool = mysql.createPool({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',

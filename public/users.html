@@ -3,18 +3,19 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>MySQL CRUD Starter</title>
+		<title>Gerenciador de Serviços da UNB</title>
 		<link rel="stylesheet" href="/styles.css" />
 	</head>
 	<body>
 		<div class="container">
-			<h1>MySQL CRUD Starter</h1>
+			<h1>Gerenciador de Serviços da UNB</h1>
 			<div class="card">
 				<h2>Usuarios</h2>
 				<form id="usuarioForm">
-					<input type="hidden" id="usuarioId" />
+					<input type="hidden" id="editingId" />
 					<input id="nome" placeholder="Nome" required />
 					<input id="email" type="email" placeholder="Email" required />
+					<input id="senha" type="password" placeholder="Senha" required />
 					<div class="actions full">
 						<button type="submit">Salvar</button>
 						<button type="button" id="cancelBtn" class="secondary">Cancelar</button>
