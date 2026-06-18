@@ -25,7 +25,7 @@ const login = async(req, res) => {
         // Login bem-sucedido se encontrar um usuário correspondente e redirecionamento, caso contrário retorna erro de autenticação e volta pra login
         if (rows.length > 0) {
             console.log('Login successful for Matricula:', Matricula);
-            return res.redirect('/api/usuarios');
+            return res.redirect('/home');
         }
 
         else {
