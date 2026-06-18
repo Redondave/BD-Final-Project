@@ -5,7 +5,6 @@ const usuarioIdInput = document.getElementById('editingId');
 const nomeInput = document.getElementById('nome');
 const emailInput = document.getElementById('email');
 const senhaInput = document.getElementById('senha');
-const matriculaInput = document.getElementById('matricula');
 const cancelBtn = document.getElementById('cancelBtn');
 
 function resetForm() {
@@ -55,6 +54,8 @@ form.addEventListener('submit', async (event) => {
 		Email: emailInput.value.trim(),
 		Senha: senhaInput.value.trim(),
 	};
+
+	console.log('Payload:', payload);
 
 	const editingMatricula = usuarioIdInput.value || null;
 	const method = editingMatricula ? 'PUT' : 'POST';

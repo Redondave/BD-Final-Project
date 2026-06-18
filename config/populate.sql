@@ -3,7 +3,7 @@
 USE projeto;
 
 CREATE TABLE Usuario 
-    (Matricula      INT PRIMARY KEY,  
+    (Matricula       INT PRIMARY KEY,  
      Data_nascimento DATE,  
      Email           VARCHAR(256) NOT NULL,  
      Nome            VARCHAR(100) NOT NULL,

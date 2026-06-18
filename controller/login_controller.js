@@ -30,7 +30,7 @@ const login = async(req, res) => {
 
         else {
             console.log('Login failed for Matricula:', Matricula);
-            return res.redirect('/');
+            return res.redirect('/login');
         }
     }
     catch (error) {

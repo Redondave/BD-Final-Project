@@ -26,6 +26,8 @@ const create = async (req, res) => {
     const usuario = await usuarioModel.create(req.body);
     return res.status(201).json(usuario);
   } catch (error) {
+    console.error("=== ERRO CAPTURADO ===");
+    console.error(error);
     return res.status(400).json({ error: error.message });
   }
 }
