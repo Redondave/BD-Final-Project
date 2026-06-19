@@ -23,10 +23,10 @@ const getByMatricula = async (req, res) => {
 
 const create = async (req, res) => {
   try {
-    const usuario = await usuarioModel.create(req.body);
+    const usuarioData = {...req.body, Foto: req.file ? req.file.buffer : null}
+    const usuario = await usuarioModel.create(usuarioData);
     return res.status(201).json(usuario);
   } catch (error) {
-    console.error("=== ERRO CAPTURADO ===");
     console.error(error);
     return res.status(400).json({ error: error.message });
   }
@@ -34,7 +34,8 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const usuario = await usuarioModel.update(req.params.matricula, req.body);
+    const usuarioData = {...req.body, Foto: req.file ? req.file.buffer : null}; 
+    const usuario = await usuarioModel.update(req.params.matricula, usuarioData);
     return res.json(usuario);
   } catch (error) {
     const status = error.message === 'Usuario not found' ? 404 : 400;
@@ -52,10 +53,30 @@ const remove = async (req, res) => {
   }
 }
 
+const getFoto = async (req, res) => {
+
+  const usuario = await usuarioModel.findByMatricula(req.params.matricula);
+
+  if (!usuario) {
+    return res.status(400).send('Error fetching the user');
+  }
+
+  res.set('Content-type', 'image/jpeg');
+
+  if (usuario.Foto) {
+    res.send(usuario.Foto);
+  } 
+  
+  else {
+    return res.redirect('/images/user.png');
+  }
+}
+
 module.exports = {
   list,
   getByMatricula,
   create,
   update,
   remove,
+  getFoto
 };

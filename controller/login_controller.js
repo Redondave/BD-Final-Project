@@ -4,7 +4,7 @@ const path = require('path');
 
 // Serve a página de login
 const showLoginForm = async(req, res) => {
-    return res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+    return res.sendFile(path.join(__dirname, '..', 'public', 'login.html'));
 }
 
 // Processa a tentativa de login fazendo consulta ao banco de dados para verificar as credenciais
@@ -24,6 +24,8 @@ const login = async(req, res) => {
 
         // Login bem-sucedido se encontrar um usuário correspondente e redirecionamento, caso contrário retorna erro de autenticação e volta pra login
         if (rows.length > 0) {
+            // Salva o usuário atual na sessão da aplicação
+            req.session.user = Matricula;
             console.log('Login successful for Matricula:', Matricula);
             return res.redirect('/home');
         }

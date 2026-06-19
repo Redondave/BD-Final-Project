@@ -5,7 +5,9 @@ const usuarioIdInput = document.getElementById('editingId');
 const nomeInput = document.getElementById('nome');
 const emailInput = document.getElementById('email');
 const senhaInput = document.getElementById('senha');
+const fotoInput = document.getElementById('foto');
 const cancelBtn = document.getElementById('cancelBtn');
+const fotoLabel = document.getElementById('fotoLabel');
 
 function resetForm() {
 	usuarioIdInput.value = '';
@@ -18,6 +20,7 @@ function renderUsuarios(usuarios) {
 		.map(
 			(usuario) => `
 				<tr>
+					<td><img src="usuarios/foto/${usuario.Matricula}" width=50 height=50></td>
 					<td>${usuario.Matricula}</td>
 					<td>${usuario.Nome}</td>
 					<td>${usuario.Email}</td>
@@ -49,27 +52,24 @@ async function getUsuario(Matricula) {
 form.addEventListener('submit', async (event) => {
 	event.preventDefault();
 
-	const payload = {
-		Nome: nomeInput.value.trim(),
-		Email: emailInput.value.trim(),
-		Senha: senhaInput.value.trim(),
-	};
+	const formData = new FormData();
+	formData.append('Nome', nomeInput.value.trim());
+	formData.append('Email', emailInput.value.trim());
+	formData.append('Senha', senhaInput.value.trim());
 
-	console.log('Payload:', payload);
+	if (fotoInput.files[0])	formData.append('Foto', fotoInput.files[0]);
 
+	// Verifica se estamos editando um usuário existente (se o campo de matrícula estiver preenchido) ou criando um novo, e define o método HTTP e a URL da requisição de acordo
 	const editingMatricula = usuarioIdInput.value || null;
 	const method = editingMatricula ? 'PUT' : 'POST';
 	const url = editingMatricula ? `/api/usuarios/view/${editingMatricula}` : '/api/usuarios/view';
 
 	const response = await fetch(url, {
 		method,
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(payload),
+		body : formData
 	});
 
-	const result = await response.json().catch(() => ({}));
+	const result = await response.json();
 
 	if (!response.ok) {
 		setStatus(result.error || 'Unable to save usuario', true);
@@ -128,6 +128,11 @@ async function initUsuariosPage() {
 		setStatus('Could not load usuarios. Check the API and database.', true);
 	}
 }
+
+// Atualiza o nome do arquivo selecionado para upload, melhorando a experiência do usuário ao escolher uma foto para o perfil
+fotoInput.addEventListener('change', () => {
+	fotoLabel.textContent = fotoInput.files[0] ? fotoInput.files[0].name : 'Escolher Foto';
+});
 
 // Exibe mensagens de status para o usuário, indicando sucesso ou erro nas operações realizadas
 function setStatus(message, isError = false) {

@@ -16,6 +16,10 @@
 					<input id="nome" placeholder="Nome" required />
 					<input id="email" type="email" placeholder="Email" required autocomplete="on"/>
 					<input id="senha" type="password" placeholder="Senha" required />
+					<input id="foto" type="file" class="hidden-input" accept=".png, .jpeg, .jpg">
+					<label for="foto", class="foto-label">
+						<span id="fotoLabel">Escolher Foto</span>
+					</label>
 					<div class="actions full">
 						<button type="submit">Salvar</button>
 						<button type="button" id="cancelBtn" class="secondary">Cancelar</button>
@@ -27,6 +31,7 @@
 				<table>
 					<thead>
 						<tr>
+							<th>Foto</th>
 							<th>ID</th>
 							<th>Nome</th>
 							<th>Email</th>

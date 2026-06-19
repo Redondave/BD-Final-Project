@@ -8,7 +8,7 @@ CREATE TABLE Usuario
      Email           VARCHAR(256) NOT NULL,  
      Nome            VARCHAR(100) NOT NULL,
      Senha           VARCHAR(255) NOT NULL,  
-     Foto            JSON,  
+     Foto            LONGBLOB,  
      UNIQUE (Email)); 
 
 CREATE TABLE Servidor 
