@@ -20,6 +20,8 @@ Before running the application, make sure that you install the dependencies by g
 npm install
 npm i mysql2 --save
 npm i express --save
+npm i express-session
+npm i multer
 ```
 After that, make sure that MySQL is up and running by running the following command in Windows PowerShell as administrator, replacing the bracketed part with the proper path for the mysql executable:
 ```
