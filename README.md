@@ -1,4 +1,4 @@
-An application dedicated to enhance the experience of students and employess at UnB when it comes to internal services requests and provisioning.
+An application dedicated to enhance the experience of students and employees at UnB when it comes to internal services requests and provisioning.
 # Project Structure:
 The project is an implementation of the MVC architectural pattern, designed to optimize the communication of the client-side requisitions with the database models defined. As such, the file structure is divided in:
 ![Project Diagram](./public/images/Diagrama_BD_final.png)
