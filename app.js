@@ -4,6 +4,7 @@ const session = require('express-session')
 
 // Importa as rotas das entidades
 const usuarioRoutes = require('./routes/usuario_routes');
+const servidorRoutes = require('./routes/servidor_routes');
 const loginRoute = require('./routes/login_route');
 const homepageRoute = require('./routes/homepage_route');
 
@@ -32,6 +33,7 @@ app.get('/', (req, res) => {
 
 // Registra as rotas para cada entidade
 app.use('/api/usuarios', usuarioRoutes);
+app.use('/api/servidores', servidorRoutes);
 app.use('/login', loginRoute);
 app.use('/home', homepageRoute);
 

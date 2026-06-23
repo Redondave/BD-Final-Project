@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Gerenciador de Serviços da UNB</title>
+		<link rel="stylesheet" href="/styles.css" />
+	</head>
+	<body>
+		<div class="container">
+			<h1>Gerenciador de Serviços da UNB</h1>
+			<div class="card">
+				<h2>Servidores</h2>
+				<form id="servidorForm">
+					<input type="hidden" id="editingId" />
+					<input id="nome" placeholder="Nome" required />
+					<input id="email" type="email" placeholder="Email" required autocomplete="on" />
+					<input id="senha" type="password" placeholder="Senha" required />
+					<input id="dataNascimento" type="date" placeholder="Data de Nascimento" required />
+					<input id="dataContrato" type="date" placeholder="Data de Contrato" required />
+					<select id="idFuncao" required>
+						<option value="">Selecione a Função</option>
+					</select>
+					<div class="actions full">
+						<button type="submit">Salvar</button>
+						<button type="button" id="cancelBtn" class="secondary">Cancelar</button>
+					</div>
+				</form>
+				<div id="status" class="status"></div>
+			</div>
+			<div class="card">
+				<table>
+					<thead>
+						<tr>
+							<th>Matrícula</th>
+							<th>Nome</th>
+							<th>Email</th>
+							<th>Data Contrato</th>
+							<th>Função</th>
+							<th>Ações</th>
+						</tr>
+					</thead>
+					<tbody id="servidoresTable"></tbody>
+				</table>
+			</div>
+		</div>
+		<script src="/functions/servidor_functions.js"></script>
+	</body>
+</html>
