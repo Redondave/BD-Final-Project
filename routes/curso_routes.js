@@ -1,5 +1,6 @@
 const express = require('express');
 const cursoController = require('../controller/curso_controller');
+const path = require('path');
 
 const router = express.Router();
 
@@ -13,6 +14,10 @@ const validateSession = (req, res, next) => {
 
 // Aplica o middleware de validação de sessão a todas as rotas deste router
 router.use(validateSession);
+
+router.get('/', (req, res) => {  
+  return res.sendFile(path.join(__dirname, '..', 'public', 'curso.html'));
+});
 
 // Define os Endpoints para o recurso "curso" e associa as ações do controller
 router.get('/view', cursoController.list);

@@ -50,8 +50,8 @@ INSERT INTO Servico (Descricao_serv, Nome_serv, Codigo_serv) VALUES
 ('Emissao de documento', 'Documento', 101),
 ('Atendimento academico', 'Atendimento', 102),
 ('Suporte tecnico', 'Suporte', 103),
-('Matricula', 'Matricula', 104),
-('Financeiro', 'Financeiro', 105);
+('Redefinicao de Matricula', 'Matricula', 104),
+('Consultoria Financeira', 'Financeiro', 105);
 
 -- ===================== Departamento =====================
 INSERT INTO Departamento (Sigla_dep, Nome_dep, Local_fisico) VALUES

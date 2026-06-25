@@ -1,5 +1,6 @@
 const express = require('express');
 const avaliacaoController = require('../controller/avaliacao_controller');
+const path = require('path');
 
 const router = express.Router();
 
@@ -11,6 +12,10 @@ const validateSession = (req, res, next) => {
 };
 
 router.use(validateSession);
+
+router.get('/', (req, res) => {  
+  return res.sendFile(path.join(__dirname, '..', 'public', 'avaliacao.html'));
+});
 
 router.get('/view', avaliacaoController.list);
 router.get('/view/:idAgentamento/:idServidor', avaliacaoController.getByIds);

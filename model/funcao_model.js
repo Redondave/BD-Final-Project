@@ -23,9 +23,10 @@ const Funcao = {
     },
 
     update: async function(codigo, funcao) {
-        const { Nome_fn } = funcao;
-        const [result] = await pool.query('UPDATE Funcao SET Nome_fn = ? WHERE Codigo_fn = ?', [
+        const { Nome_fn, Codigo_fn } = funcao;
+        const [result] = await pool.query('UPDATE Funcao SET Nome_fn = ?, Codigo_fn = ? WHERE Codigo_fn = ?', [
             Nome_fn,
+            Codigo_fn,
             codigo
         ]);
         return result.affectedRows > 0;

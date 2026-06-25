@@ -1,5 +1,6 @@
 const express = require('express');
 const agendamentoController = require('../controller/agendamento_controller');
+const path = require('path');
 
 const router = express.Router();
 
@@ -11,6 +12,10 @@ const validateSession = (req, res, next) => {
 };
 
 router.use(validateSession);
+
+router.get('/', (req, res) => {  
+  return res.sendFile(path.join(__dirname, '..', 'public', 'agendamento.html'));
+});
 
 router.get('/view', agendamentoController.list);
 router.get('/view/:id', agendamentoController.getById);
