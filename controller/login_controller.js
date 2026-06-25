@@ -4,6 +4,7 @@ const path = require('path');
 
 // Serve a página de login
 const showLoginForm = async(req, res) => {
+    req.session.destroy();
     return res.sendFile(path.join(__dirname, '..', 'public', 'login.html'));
 }
 

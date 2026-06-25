@@ -12,6 +12,7 @@ const servicoRoutes = require('./routes/servico_routes');
 const estudanteRoutes = require('./routes/estudante_routes');
 const loginRoute = require('./routes/login_route');
 const homepageRoute = require('./routes/homepage_route');
+const logoutRoute = require('./routes/logout_route');
 
 const app = express();
 
@@ -46,7 +47,7 @@ app.use('/api/servicos', servicoRoutes);
 app.use('/api/estudantes', estudanteRoutes);
 app.use('/login', loginRoute);
 app.use('/home', homepageRoute);
-
+app.use('/logout', logoutRoute);
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
