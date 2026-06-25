@@ -17,8 +17,8 @@
 					<input id="nome" placeholder="Nome" required />
 					<input id="email" type="email" placeholder="Email" required autocomplete="on" />
 					<input id="senha" type="password" placeholder="Senha" required />
-					<input id="dataNascimento" type="date" placeholder="Data de Nascimento" required />
-					<input id="dataContrato" type="date" placeholder="Data de Contrato" required />
+					<input id="dataNascimento" type="text" placeholder="Data de nascimento" onfocus="(this.type='date')" onblur="if(!this.value) this.type='text'" required />
+					<input id="dataContrato" type="text" placeholder="Data de Contrato" onfocus="(this.type='date')" onblur="if(!this.value) this.type='text'" required />
 					<select id="idFuncao" required>
 						<option value="">Selecione a Função</option>
 					</select>

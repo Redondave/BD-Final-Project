@@ -78,10 +78,10 @@ ALTER TABLE Oferece ADD FOREIGN KEY(Codigo_serv) REFERENCES Servico (Codigo_serv
 ALTER TABLE Avaliacao ADD FOREIGN KEY(idAgentamento) REFERENCES Agendamento (Id) ON DELETE CASCADE;
 ALTER TABLE Avaliacao ADD FOREIGN KEY(idServidor) REFERENCES Servidor (Matricula) ON DELETE CASCADE;
 
-CREATE TRIGGER unique_matricula BEFORE INSERT ON Usuario
+CREATE TRIGGER valid_date BEFORE INSERT ON Usuario
 FOR EACH ROW
 BEGIN
-    IF EXISTS (SELECT 1 FROM Usuario WHERE Usuario.Matricula = NEW.Matricula) THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Matricula já existe na tabela Usuario.';
+    IF NEW.Data_nascimento > '2008-01-01' THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Usuário deve ter no mínimo 18 anos de idade.';
     END IF;
 END;
