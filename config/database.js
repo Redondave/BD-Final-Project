@@ -14,6 +14,7 @@ const adminPool = mysql.createPool({
     waitForConnections: true,
     connectionLimit: 1,
     queueLimit: 0,
+    multipleStatements: true
 });
 
 // Função para verificar se o banco de dados já existe
@@ -30,14 +31,7 @@ async function databaseExists() {
 async function runSqlFile(connection, fileName) {
     const filePath = path.join(__dirname, fileName);
     const sql = fs.readFileSync(filePath, 'utf8');
-    const statements = sql
-        .split(';')
-        .map((statement) => statement.trim())
-        .filter(Boolean);
-
-    for (const statement of statements) {
-        await connection.query(statement);
-    }
+    await connection.query(sql);
 }
 
 

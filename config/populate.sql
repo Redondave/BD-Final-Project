@@ -78,12 +78,10 @@ ALTER TABLE Oferece ADD FOREIGN KEY(Codigo_serv) REFERENCES Servico (Codigo_serv
 ALTER TABLE Avaliacao ADD FOREIGN KEY(idAgentamento) REFERENCES Agendamento (Id) ON DELETE CASCADE;
 ALTER TABLE Avaliacao ADD FOREIGN KEY(idServidor) REFERENCES Servidor (Matricula) ON DELETE CASCADE;
 
-CREATE TRIGGER before_insert_usuario
-BEFORE INSERT ON Usuario
+CREATE TRIGGER unique_matricula BEFORE INSERT ON Usuario
 FOR EACH ROW
 BEGIN
-    IF NEW.Matricula IS IN (SELECT Matricula FROM Usuario) THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Matricula já existe.';
-        NEW.Matricula = NEW.Matricula + 1;
+    IF EXISTS (SELECT 1 FROM Usuario WHERE Usuario.Matricula = NEW.Matricula) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Matricula já existe na tabela Usuario.';
     END IF;
 END;
