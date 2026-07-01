@@ -62,12 +62,12 @@ INSERT INTO Departamento (Sigla_dep, Nome_dep, Local_fisico) VALUES
 ('ENG', 'Engenharia', 'Faculdade de Tecnologia');
 
 -- ===================== Solicitacao =====================
-INSERT INTO Solicitacao (Senha, idEstudante, Codigo_serv, Data_emissao) VALUES
-(1, 202780233, 101, '2024-01-10'),
-(2, 202780233, 102, '2024-01-11'),
-(3, 241020741, 103, '2024-01-12'),
-(4, 22100875, 104, '2024-01-13'),
-(5, 19107647, 105, '2024-01-14');
+INSERT INTO Solicitacao (idEstudante, Codigo_serv, Data_emissao) VALUES
+(202780233, 101, '2024-01-10'),
+(202780233, 102, '2024-01-11'),
+(241020741, 103, '2024-01-12'),
+(22100875, 104, '2024-01-13'),
+(19107647, 105, '2024-01-14');
 
 -- ===================== Agendamento =====================
 INSERT INTO Agendamento (Id, Data_hora, Lugar, idSolicitacao) VALUES

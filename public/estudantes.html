@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Gerenciador de Serviços da UNB</title>
+		<link rel="stylesheet" href="/styles.css" />
+	</head>
+	<body>
+		<div class="container">
+			<h1>Gerenciador de Serviços da UNB</h1>
+			<div class="card">
+				<button type="button" onclick="window.location.href='/home'">Voltar para a página inicial</button>
+				<h2>Estudantes</h2>
+				<form id="estudanteForm">
+					<input type="hidden" id="editingId" />
+					<input id="nome" placeholder="Nome" required />
+					<input id="email" type="email" placeholder="Email" required autocomplete="on" />
+					<input id="senha" type="password" placeholder="Senha" required />
+					<input id="dataNascimento" type="text" placeholder="Data de nascimento" onfocus="(this.type='date')" onblur="if(!this.value) this.type='text'" required />
+					<input id="semestre" type="float" placeholder="Semestre (ex: 2023.1)" required />
+					<select id="idCurso" required>
+						<option value="">Selecione o Curso</option>
+					</select>
+					<div class="actions full">
+						<button type="submit">Salvar</button>
+						<button type="button" id="cancelBtn" class="secondary">Cancelar</button>
+					</div>
+				</form>
+				<div id="status" class="status"></div>
+			</div>
+			<div class="card">
+				<table>
+					<thead>
+						<tr>
+                            <th>Nome</th>
+							<th>Matrícula</th>
+							<th>Semestre</th>
+							<th>Curso</th>
+							<th>Ações</th>
+						</tr>
+					</thead>
+					<tbody id="estudantesTable"></tbody>
+				</table>
+			</div>
+		</div>
+		<script src="/functions/estudante_functions.js"></script>
+	</body>
+</html>

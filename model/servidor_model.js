@@ -27,11 +27,6 @@ const Servidor = {
         return rows[0] || null;
     },
 
-    findAllFuncoes: async function () {
-        const [rows] = await pool.query('SELECT Codigo_fn, Nome_fn FROM Funcao ORDER BY Codigo_fn');
-        return rows;
-    },
-
     create: async function (servidor) {
         const { Nome, Email, Senha, Data_nascimento, Data_contrato, idFuncao } = servidor;
 

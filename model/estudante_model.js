@@ -33,32 +33,36 @@ const Estudante = {
 
     // Acesso multi-tabela: verifica existência do Usuario e do Curso antes de inserir
     create: async function(estudante) {
-        const { Matricula, Semestre, idCurso } = estudante;
+        const { Nome, Email, Senha, Data_nascimento, Semestre, idCurso } = estudante;
 
-        // Verifica se o Usuario existe
-        const [usuario] = await pool.query('SELECT Matricula FROM Usuario WHERE Matricula = ?', [Matricula]);
-        if (usuario.length === 0) {
-            throw new Error('Usuário com esta matrícula não existe. Cadastre o usuário primeiro.');
+        const randomNum = Math.floor(Math.random() * 1000000); // Gera uma matrícula aleatória;
+        const suffix = randomNum.toString().padStart(6, '0'); // Garante que os 8 dígitos da matrícula sejam preenchidos com zeros à esquerda
+        const matriculaCompleta = parseInt("261" + suffix, 10); // Formata a matrícula completa
+
+        const connection = await pool.getConnection();
+        try {
+            await connection.beginTransaction();
+
+            // Inserção na tabela pai Usuario
+            await connection.query(
+                'INSERT INTO Usuario (Matricula, Nome, Email, Senha, Data_nascimento) VALUES (?, ?, ?, ?, ?)',
+                [matriculaCompleta, Nome, Email, Senha, Data_nascimento]
+            );
+
+            // Inserção na tabela filha Estudante (referencia o Usuario recém-criado)
+            await connection.query(
+                'INSERT INTO Estudante (Matricula, Semestre, idCurso) VALUES (?, ?, ?)',
+                [matriculaCompleta, Semestre, idCurso]
+            );
+
+            await connection.commit();
+            return matriculaCompleta;
+        } catch (err) {
+            await connection.rollback();
+            throw err;
+        } finally {
+            connection.release();
         }
-
-        // Verifica se o Curso existe
-        const [curso] = await pool.query('SELECT Sigla_curso FROM Curso WHERE Sigla_curso = ?', [idCurso]);
-        if (curso.length === 0) {
-            throw new Error('Curso com esta sigla não existe.');
-        }
-
-        // Verifica se já não é estudante
-        const [existente] = await pool.query('SELECT Matricula FROM Estudante WHERE Matricula = ?', [Matricula]);
-        if (existente.length > 0) {
-            throw new Error('Este usuário já está cadastrado como estudante.');
-        }
-
-        const [result] = await pool.query('INSERT INTO Estudante (Matricula, Semestre, idCurso) VALUES (?, ?, ?)', [
-            Matricula,
-            Semestre,
-            idCurso
-        ]);
-        return result.affectedRows > 0;
     },
 
     update: async function(matricula, estudante) {

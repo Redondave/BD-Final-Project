@@ -1,4 +1,5 @@
 const estudanteModel = require('../model/estudante_model');
+const cursoModel = require('../model/curso_model');
 
 // Lista as ações do CRUD para o recurso "estudante"
 const list = async (req, res) => {
@@ -8,6 +9,15 @@ const list = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
+};
+
+const listCursos = async (req, res) => {
+    try {
+        const cursos = await cursoModel.findAll();
+        return res.json(cursos);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
 };
 
 const getByMatricula = async (req, res) => {
@@ -50,4 +60,4 @@ const remove = async (req, res) => {
   }
 };
 
-module.exports = { list, getByMatricula, create, update, remove };
+module.exports = { list, listCursos, getByMatricula, create, update, remove };

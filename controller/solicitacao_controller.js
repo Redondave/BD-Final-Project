@@ -1,9 +1,29 @@
 const solicitacaoModel = require('../model/solicitacao_model');
+const servicoModel = require('../model/servico_model');
+const estudanteModel = require('../model/estudante_model');
 
 const list = async (req, res) => {
   try {
     const solicitacoes = await solicitacaoModel.findAll();
     return res.json(solicitacoes);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const listServicos = async (req, res) => {
+  try {
+    const servicos = await servicoModel.findAll();
+    return res.json(servicos);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const listEstudantes = async (req, res) => {
+  try {
+    const estudantes = await estudanteModel.findAll();
+    return res.json(estudantes);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -58,4 +78,4 @@ const remove = async (req, res) => {
   }
 };
 
-module.exports = { list, getBySenha, getByEstudante, create, update, remove };
+module.exports = { list, getBySenha, getByEstudante, create, update, remove, listServicos, listEstudantes };

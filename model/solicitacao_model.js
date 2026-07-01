@@ -3,19 +3,21 @@ const pool = db.appPool;
 
 const Solicitacao = {
     findAll: async function() {
-        const [rows] = await pool.query(`
-            SELECT s.*, e.Semestre, u.Nome, serv.Nome_serv
+        const [result] = await pool.query(`SELECT s.*, serv.Nome_serv, u.Nome AS Nome_Estudante
             FROM Solicitacao s
-            JOIN Estudante e ON s.idEstudante = e.Matricula
-            JOIN Usuario u ON e.Matricula = u.Matricula
             JOIN Servico serv ON s.Codigo_serv = serv.Codigo_serv
-            ORDER BY s.Data_emissao DESC
-        `);
-        return rows;
+            JOIN Usuario u ON s.idEstudante = u.Matricula`);
+    
+        return result;
     },
 
     findBySenha: async function(senha) {
-        const [rows] = await pool.query('SELECT * FROM Solicitacao WHERE Senha = ?', [senha]);
+        const [rows] = await pool.query(`
+            SELECT s.*, serv.Nome_serv 
+            FROM Solicitacao s
+            JOIN Servico serv ON s.Codigo_serv = serv.Codigo_serv
+            WHERE s.Senha = ?
+        `, [senha]);
         return rows[0] || null;
     },
 
@@ -34,7 +36,7 @@ const Solicitacao = {
         const { idEstudante, Codigo_serv, Data_emissao } = solicitacao;
         
         // Verifica se Estudante existe
-        const [estudante] = await pool.query('SELECT Matricula FROM Estudante WHERE Matricula = ?', [idEstudante]);
+        const [estudante] = await pool.query('SELECT Matricula FROM Usuario WHERE Matricula = ?', [idEstudante]);
         if (estudante.length === 0) throw new Error('Estudante não encontrado');
 
         // Verifica se Servico existe

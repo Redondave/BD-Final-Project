@@ -16,10 +16,11 @@ const validateSession = (req, res, next) => {
 router.use(validateSession);
 
 router.get('/', (req, res) => {  
-  return res.sendFile(path.join(__dirname, '..', 'public', 'estudante.html'));
+  return res.sendFile(path.join(__dirname, '..', 'public', 'estudantes.html'));
 });
 
 // Define os Endpoints para o recurso "estudante" e associa as ações do controller
+router.get('/cursos', estudanteController.listCursos);
 router.get('/view', estudanteController.list);
 router.get('/view/:matricula', estudanteController.getByMatricula);
 router.post('/view', estudanteController.create);

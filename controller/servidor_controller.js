@@ -1,4 +1,5 @@
 const servidorModel = require('../model/servidor_model');
+const funcaoModel = require('../model/funcao_model');
 
 // Lista as ações do CRUD para o recurso "servidor"
 const list = async (req, res) => {
@@ -24,7 +25,7 @@ const getByMatricula = async (req, res) => {
 
 const listFuncoes = async (req, res) => {
     try {
-        const funcoes = await servidorModel.findAllFuncoes();
+        const funcoes = await funcaoModel.findAll();
         return res.json(funcoes);
     } catch (error) {
         return res.status(500).json({ error: error.message });

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Gerenciador de Serviços da UNB</title>
+		<link rel="stylesheet" href="/styles.css" />
+	</head>
+	<body>
+		<div class="container">
+			<h1>Gerenciador de Serviços da UNB</h1>
+			<div class="card">
+				<button type="button" onclick="window.location.href='/home'">Voltar para a página inicial</button>
+				<h2>Solicitacoes</h2>
+				<form id="solicitacaoForm">
+					<input type="hidden" id="editingId" />
+					<select id="estudante" required>
+						<option value="">Selecione o Estudante</option>
+					</select>
+					<input id="data" type="text" placeholder="Data de solicitação" onfocus="(this.type='date')" onblur="if(!this.value) this.type='text'" required />
+					<select id="idServico" required>
+						<option value="">Selecione o Serviço</option>
+					</select>
+					<div class="actions full">
+						<button type="submit">Salvar</button>
+						<button type="button" id="cancelBtn" class="secondary">Cancelar</button>
+					</div>
+				</form>
+				<div id="status" class="status"></div>
+			</div>
+			<div class="card">
+				<table>
+					<thead>
+						<tr>
+                            <th>Senha</th>
+							<th>Estudante</th>
+							<th>Data</th>
+							<th>Serviço</th>
+							<th>Ações</th>
+						</tr>
+					</thead>
+					<tbody id="solicitacoesTable"></tbody>
+				</table>
+			</div>
+		</div>
+		<script src="/functions/solicitacao_functions.js"></script>
+	</body>
+</html>
