@@ -4,31 +4,32 @@ const pool = db.appPool;
 const Oferece = {
     findAll: async function() {
         const [rows] = await pool.query(`
-            SELECT o.*, d.Nome_dep, s.Nome_serv
-            FROM Oferece o
-            JOIN Departamento d ON o.Sigla_dep = d.Sigla_dep
-            JOIN Servico s ON o.Codigo_serv = s.Codigo_serv
+            SELECT * FROM view_oferece
         `);
         return rows;
     },
 
     findByDepartamento: async function(sigla) {
         const [rows] = await pool.query(`
-            SELECT o.*, s.Nome_serv, s.Descricao_serv 
-            FROM Oferece o
-            JOIN Servico s ON o.Codigo_serv = s.Codigo_serv
-            WHERE o.Sigla_dep = ?
+            SELECT * FROM view_oferece
+            WHERE Sigla_dep = ?
         `, [sigla]);
         return rows;
     },
 
     findByServico: async function(codigo) {
         const [rows] = await pool.query(`
-            SELECT o.*, d.Nome_dep 
-            FROM Oferece o
-            JOIN Departamento d ON o.Sigla_dep = d.Sigla_dep
-            WHERE o.Codigo_serv = ?
+            SELECT * FROM view_oferece
+            WHERE Codigo_serv = ?
         `, [codigo]);
+        return rows;
+    },
+
+    findById: async function(sigla, codigo) {
+        const [rows] = await pool.query(`
+            SELECT * FROM view_oferece
+            WHERE Sigla_dep = ? AND Codigo_serv = ?
+        `, [sigla, codigo]);
         return rows;
     },
 
@@ -46,6 +47,17 @@ const Oferece = {
         const [result] = await pool.query('INSERT INTO Oferece (Sigla_dep, Codigo_serv) VALUES (?, ?)', [
             Sigla_dep,
             Codigo_serv
+        ]);
+        return result.affectedRows > 0;
+    },
+
+    update: async function(sigla, codigo, oferece) {
+        const { Sigla_dep, Codigo_serv } = oferece;
+        const [result] = await pool.query('UPDATE Oferece SET Sigla_dep = ?, Codigo_serv = ? WHERE Sigla_dep = ? AND Codigo_serv = ?', [
+            Sigla_dep,
+            Codigo_serv,
+            sigla,
+            codigo
         ]);
         return result.affectedRows > 0;
     },

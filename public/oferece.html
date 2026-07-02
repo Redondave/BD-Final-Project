@@ -11,11 +11,15 @@
 			<h1>Gerenciador de Serviços da UNB</h1>
 			<div class="card">
 				<button type="button" onclick="window.location.href='/home'">Voltar para a página inicial</button>
-				<h2>Funções</h2>
-				<form id="funcaoForm">
+				<h2>Serviços por departamento</h2>
+				<form id="ofertaForm">
 					<input type="hidden" id="editingId" />
-					<input id="nome" placeholder="Nome" required />
-					<input id="codigo" placeholder="Código" required ds/>
+					<select id="idDepartamento" required>
+						<option value="">Selecione o Departamento</option>
+					</select>
+                    <select id="idServico" required>
+						<option value="">Selecione o Serviço</option>
+					</select>
 					<div class="actions full">
 						<button type="submit">Salvar</button>
 						<button type="button" id="cancelBtn" class="secondary">Cancelar</button>
@@ -27,15 +31,15 @@
 				<table>
 					<thead>
 						<tr>
-							<th>Nome</th>
-							<th>Código</th>
-							<th>Ações</th>
+							<th>Nome do Departamento</th>
+							<th>Nome do Serviço</th>
+                            <th>Ações</th>
 						</tr>
 					</thead>
-					<tbody id="funcaoTable"></tbody>
+					<tbody id="ofertasTable"></tbody>
 				</table>
 			</div>
 		</div>
-		<script src="/functions/funcao_functions.js"></script>
+		<script src="/functions/oferece_functions.js"></script>
 	</body>
 </html>

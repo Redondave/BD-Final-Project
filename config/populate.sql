@@ -85,3 +85,9 @@ BEGIN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Usuário deve ter no mínimo 18 anos de idade.';
     END IF;
 END;
+
+CREATE VIEW view_oferece AS
+SELECT d.Sigla_dep, d.Nome_dep, s.Codigo_serv, s.Nome_serv
+FROM Oferece o 
+JOIN Departamento d ON o.Sigla_dep = d.Sigla_dep
+JOIN Servico s ON o.Codigo_serv = s.Codigo_serv;
