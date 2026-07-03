@@ -1,4 +1,5 @@
 const agendamentoModel = require('../model/agendamento_model');
+const solicitacaoModel = require('../model/solicitacao_model');
 
 const list = async (req, res) => {
   try {
@@ -49,4 +50,13 @@ const remove = async (req, res) => {
   }
 };
 
-module.exports = { list, getById, create, update, remove };
+const listSolicitacoes = async (req, res) => {
+  try {
+    const solicitacoes = await solicitacaoModel.findAll();
+    return res.json(solicitacoes);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { list, getById, create, update, remove, listSolicitacoes };

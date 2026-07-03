@@ -18,6 +18,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/view', agendamentoController.list);
+router.get('/solicitacoes', agendamentoController.listSolicitacoes);
 router.get('/view/:id', agendamentoController.getById);
 router.post('/view', agendamentoController.create);
 router.put('/view/:id', agendamentoController.update);

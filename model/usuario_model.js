@@ -14,7 +14,7 @@ const Usuario = {
     },
 
     create: async function(usuario) {
-        const { Nome, Email, Senha, Foto } = usuario;
+        const { Nome, Email, Senha, Data_nascimento, Foto } = usuario;
 
         const randomNum = Math.floor(Math.random() * 1000000); // Gera uma matrícula aleatória
         const suffix = randomNum.toString().padStart(6, '0'); // Garante que os 6 dígitos da matrícula após semestre são aleatórios
@@ -22,10 +22,11 @@ const Usuario = {
         
         console.log(matriculaCompleta);
         
-        const [result] = await pool.query('INSERT INTO Usuario (Nome, Email, Senha, Matricula, Foto) VALUES (?, ?, ?, ?, ?)', [
+        const [result] = await pool.query('INSERT INTO Usuario (Nome, Email, Senha, Data_nascimento, Matricula, Foto) VALUES (?, ?, ?, ?, ?, ?)', [
             Nome,
             Email,
             Senha,
+            Data_nascimento,
             matriculaCompleta, 
             Foto
         ]);
@@ -33,11 +34,12 @@ const Usuario = {
     },
 
     update: async function(Matricula, usuario) {
-        const { Nome, Email, Senha, Foto } = usuario;
-        const [result] = await pool.query('UPDATE Usuario SET Nome = ?, Email = ?, Senha = ?, Foto = ? WHERE Matricula = ?', [
+        const { Nome, Email, Senha, Data_nascimento, Foto } = usuario;
+        const [result] = await pool.query('UPDATE Usuario SET Nome = ?, Email = ?, Senha = ?, Data_nascimento = ?, Foto = ? WHERE Matricula = ?', [
             Nome,
             Email,
             Senha,
+            Data_nascimento,
             Foto,
             Matricula
         ]);

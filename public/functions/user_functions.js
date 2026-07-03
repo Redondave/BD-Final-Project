@@ -1,5 +1,6 @@
 const form = document.getElementById('usuarioForm');
 const usuariosTable = document.getElementById('usuariosTable');
+const dataInput = document.getElementById('dataNascimento');
 const statusBox = document.getElementById('status');
 const usuarioIdInput = document.getElementById('editingId');
 const nomeInput = document.getElementById('nome');
@@ -56,6 +57,7 @@ form.addEventListener('submit', async (event) => {
 	formData.append('Nome', nomeInput.value.trim());
 	formData.append('Email', emailInput.value.trim());
 	formData.append('Senha', senhaInput.value.trim());
+	formData.append('Data_nascimento', dataInput.value.trim());
 
 	if (fotoInput.files[0])	formData.append('Foto', fotoInput.files[0]);
 
@@ -92,6 +94,9 @@ usuariosTable.addEventListener('click', async (event) => {
 		nomeInput.value = usuario.Nome;
 		emailInput.value = usuario.Email;
 		senhaInput.value = usuario.Senha;
+		dataInput.value = usuario.Data_nascimento
+			? usuario.Data_nascimento.split('T')[0]
+			: '';
 		setStatus('Editing usuario');
 	}
 

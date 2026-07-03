@@ -34,7 +34,7 @@ CREATE TABLE Departamento
      UNIQUE (Nome_dep)); 
 
 CREATE TABLE Agendamento 
-    (Id             INT PRIMARY KEY,  
+    (Id             INT PRIMARY KEY AUTO_INCREMENT,  
      Data_hora      DATE NOT NULL,  
      Lugar          VARCHAR(100) NOT NULL,  
      idSolicitacao  INT UNSIGNED NOT NULL); 
@@ -81,9 +81,7 @@ ALTER TABLE Avaliacao ADD FOREIGN KEY(idServidor) REFERENCES Servidor (Matricula
 CREATE TRIGGER valid_date BEFORE INSERT ON Usuario
 FOR EACH ROW
 BEGIN
-    IF NEW.Data_nascimento > '2008-01-01' THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Usuário deve ter no mínimo 18 anos de idade.';
-    END IF;
+    CALL date_validation(NEW.Data_nascimento);
 END;
 
 CREATE VIEW view_oferece AS
@@ -91,3 +89,10 @@ SELECT d.Sigla_dep, d.Nome_dep, s.Codigo_serv, s.Nome_serv
 FROM Oferece o 
 JOIN Departamento d ON o.Sigla_dep = d.Sigla_dep
 JOIN Servico s ON o.Codigo_serv = s.Codigo_serv;
+
+CREATE PROCEDURE date_validation(date_of_birth DATE)
+BEGIN
+    IF date_of_birth > '2008-01-01' THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Usuário deve ter no mínimo 18 anos de idade.';
+    END IF;
+END

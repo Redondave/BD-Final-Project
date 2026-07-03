@@ -15,6 +15,7 @@ const homepageRoute = require('./routes/homepage_route');
 const logoutRoute = require('./routes/logout_route');
 const solicitacaoRoutes = require('./routes/solicitacao_routes');
 const ofereceRoutes = require('./routes/oferece_routes');
+const agendamentoRoutes = require('./routes/agendamento_routes');
 
 const app = express();
 
@@ -52,6 +53,7 @@ app.use('/home', homepageRoute);
 app.use('/logout', logoutRoute);
 app.use('/api/solicitacoes', solicitacaoRoutes);
 app.use('/api/oferece', ofereceRoutes);
+app.use('/api/agendamentos', agendamentoRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });

@@ -70,12 +70,12 @@ INSERT INTO Solicitacao (idEstudante, Codigo_serv, Data_emissao) VALUES
 (19107647, 105, '2024-01-14');
 
 -- ===================== Agendamento =====================
-INSERT INTO Agendamento (Id, Data_hora, Lugar, idSolicitacao) VALUES
-(1, '2024-02-01', 'Sala 1', 1),
-(2, '2024-02-02', 'Sala 2', 2),
-(3, '2024-02-03', 'Sala 3', 3),
-(4, '2024-02-04', 'Sala 4', 4),
-(5, '2024-02-05', 'Sala 5', 5);
+INSERT INTO Agendamento (Data_hora, Lugar, idSolicitacao) VALUES
+('2024-02-01', 'Sala 1', 1),
+('2024-02-02', 'Sala 2', 2),
+('2024-02-03', 'Sala 3', 3),
+('2024-02-04', 'Sala 4', 4),
+('2024-02-05', 'Sala 5', 5);
 
 -- ===================== Oferece =====================
 INSERT INTO Oferece (Sigla_dep, Codigo_serv) VALUES
