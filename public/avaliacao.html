@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Gerenciador de Serviços da UNB</title>
+		<link rel="stylesheet" href="/styles.css" />
+	</head>
+	<body>
+		<div class="container">
+			<h1>Gerenciador de Serviços da UNB</h1>
+			<div class="card">
+				<button type="button" onclick="window.location.href='/home'">Voltar para a página inicial</button>
+				<h2>Avaliações</h2>
+				<form id="avaliacaoForm">
+					<select id="idAgentamento" required>
+						<option value="">Selecione o Agendamento</option>
+					</select>
+					<select id="idServidor" required>
+						<option value="">Selecione o Servidor</option>
+					</select>
+					<input id="dataHora" type="datetime-local" required />
+					<select id="resultado" required>
+						<option value="">O atendimento foi satisfatório?</option>
+						<option value="1">Sim (Positivo)</option>
+						<option value="0">Não (Negativo)</option>
+					</select>
+					<div class="actions full">
+						<button type="submit">Salvar</button>
+						<button type="button" id="cancelBtn" class="secondary">Cancelar</button>
+					</div>
+				</form>
+				<div id="status" class="status"></div>
+			</div>
+			<div class="card">
+				<table>
+					<thead>
+						<tr>
+							<th>Data/Hora</th>
+							<th>Agendamento (Local)</th>
+							<th>Servidor</th>
+							<th>Resultado</th>
+							<th>Ações</th>
+						</tr>
+					</thead>
+					<tbody id="avaliacoesTable"></tbody>
+				</table>
+			</div>
+		</div>
+		<script src="/functions/avaliacao_functions.js"></script>
+	</body>
+</html>

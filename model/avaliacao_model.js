@@ -4,7 +4,7 @@ const pool = db.appPool;
 const Avaliacao = {
     findAll: async function() {
         const [rows] = await pool.query(`
-            SELECT av.*, a.Lugar, u.Nome as Nome_Servidor
+            SELECT av.idAgentamento, av.idServidor, DATE_FORMAT(av.Data_hora, '%Y-%m-%d %H:%i:%s') AS Data_hora, av.Resultado, a.Lugar, u.Nome as Nome_Servidor
             FROM Avaliacao av
             JOIN Agendamento a ON av.idAgentamento = a.Id
             JOIN Servidor s ON av.idServidor = s.Matricula
@@ -15,7 +15,7 @@ const Avaliacao = {
     },
 
     findByIds: async function(idAgentamento, idServidor) {
-        const [rows] = await pool.query('SELECT * FROM Avaliacao WHERE idAgentamento = ? AND idServidor = ?', [idAgentamento, idServidor]);
+        const [rows] = await pool.query('SELECT idAgentamento, idServidor, DATE_FORMAT(Data_hora, "%Y-%m-%d %H:%i:%s") AS Data_hora, Resultado FROM Avaliacao WHERE idAgentamento = ? AND idServidor = ?', [idAgentamento, idServidor]);
         return rows;
     },
 
